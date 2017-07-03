@@ -1,0 +1,33 @@
+pipeline {
+  agent none
+
+  stages {
+    stage('Build') {
+      steps {
+        // ansiColor('xterm') {
+          dir ('server') {
+            sh "rm -rf project/target"
+            sh """java -jar /opt/sbt/bin/sbt-launch.jar "reload plugins" update "reload return" clean reload compile"""
+            // junit '**/target/test-reports/*.xml'
+          }
+        // }
+      }
+    }
+    // stage('Test') {
+    //   agent any
+    //   ansiColor('xterm') {
+    //     dir ('server') {
+    //       steps {
+    //         sh """java -jar /opt/sbt/bin/sbt-launch.jar fullTest print-date"""
+    //       }
+    //     }
+    //   }
+    // }
+  }
+
+  // post {
+  //   always {
+  //     junit '**/target/test-reports/*.xml'
+  //   }
+  // }
+}
